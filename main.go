@@ -1,23 +1,31 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"myapp/doctor"
+	"os"
+	"strings"
 )
 
 func main() {
-	// normal way to variables and assignment
-	// var whatToSay string
-	// whatToSay = `Hello World again and again!`
-	// sayHelloWorld(whatToSay) // OUTPUT : Hello World again and again!
+	reader := bufio.NewReader(os.Stdin)
 
-	// shorthand easy way auto type by value
-	whatToSay := `Hello World again by shorthand`
-	sayHelloWorld(whatToSay) // OUTPUT : Hello World again by shorthand
+	whatToSay := doctor.Intro()
 
-	sayHelloWorld(`Hello World again!👋🏻`)      // OUTPUT : Hello World again!👋🏻
-	sayHelloWorld(`Bonjour, tout le monde!👋🏻`) // OUTPUT : Bonjour, tout le monde!👋🏻
-}
-
-func sayHelloWorld(whatToSay string) {
 	fmt.Println(whatToSay)
+
+	for {
+		fmt.Print("-> ")
+		userInput, _ := reader.ReadString('\n')
+
+		userInput = strings.Replace(userInput, "\r\n", "", -1)
+		userInput = strings.Replace(userInput, "\n", "", -1)
+
+		if userInput == "quit" {
+			break
+		} else {
+			fmt.Println(doctor.Response(userInput))
+		}
+	}
 }
